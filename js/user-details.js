@@ -26,25 +26,20 @@ class UserDetails extends React.Component {
         }
     }
     componentDidMount(){
-        const par = this.props.params;
-        if (par) {
-            let {id} = par;
-            console.log("id = " + id);
-            if(id){
-                this.setState({
-                    details:detailsRecords.filter((record)=>{
-                        return record.id != id;
-                    })
+        let {id} = this.props.params;
+        console.log(id);
+        if(id){
+            this.setState({
+                details:detailsRecords.filter((record)=>{
+                    return record.id != id;
                 })
-            } else {
+            })
+        } else {
+            this.setState(
                 this.setState({
                     details:detailsRecords
                 })
-            }
-        } else {
-            this.setState({
-                details:detailsRecords
-            })
+            )
         }
     }
     render(){
