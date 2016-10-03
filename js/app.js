@@ -3,6 +3,7 @@ import React from 'react';
 import {render} from 'react-dom';
 
 import GridRecord from './record';
+import SummaryActive from './summary'
 
 const dataSource = [
     {firstName: "John", lastName: "Doe", active: false},
@@ -85,6 +86,8 @@ class GridComponent extends React.Component {
 }
 
 render(
-    <GridComponent/>,
+    <GridComponent>
+        <SummaryActive/>
+    </GridComponent>,
     document.getElementById('app')
 );

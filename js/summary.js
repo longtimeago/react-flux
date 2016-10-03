@@ -1,3 +1,6 @@
+import React from 'react';
+import {render} from 'react-dom';
+
 class SummaryActive extends React.Component {
     render(){
         return (
@@ -13,3 +16,5 @@ class SummaryUsers extends React.Component {
         )
     }
 }
+
+export default SummaryActive;
