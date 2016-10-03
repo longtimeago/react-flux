@@ -4,11 +4,14 @@ import {render} from 'react-dom';
 
 import GridRecord from './record';
 import SummaryActive from './summary'
+import UserDetails from './user-details'
+
+import { Router, Route, Link, hashHistory} from 'react-router'
 
 const dataSource = [
-    {firstName: "John", lastName: "Doe", active: false},
-    {firstName: "Mary", lastName: "Moe", active: false},
-    {firstName: "Peter", lastName: "Noname", active: true}
+    {firstName: "John", lastName: "Doe", active: false, id: 1},
+    {firstName: "Mary", lastName: "Moe", active: false, id: 2},
+    {firstName: "Peter", lastName: "Noname", active: true, id: 3}
 ];
 
 class GridComponent extends React.Component {
@@ -64,6 +67,7 @@ class GridComponent extends React.Component {
                 <table className="table table-condensed">
                     <thead>
                     <tr>
+                        <th>Id</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Active</th>
@@ -85,9 +89,29 @@ class GridComponent extends React.Component {
     }
 }
 
+class App extends React.Component {
+    render(){
+        return (
+            <div>
+                <h1>Our awesome app</h1>
+                <ul role="nav">
+                    <li><Link to="/grid">Grid</Link></li>
+                    <li><Link to="/details">Details</Link></li>
+                </ul>
+                {this.props.children}
+            </div>
+        )
+    }
+}
+
 render(
-    <GridComponent>
-        <SummaryActive/>
-    </GridComponent>,
+    <Router history={hashHistory}>
+        <Route path="/" component={App}>
+            <Route path="grid" component={GridComponent}/>
+            <Route path="details" component={UserDetails}>
+                <Route path="/details/:id" component={UserDetails}/>
+            </Route>
+        </Route>
+    </Router>,
     document.getElementById('app')
 );
