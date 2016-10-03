@@ -12,7 +12,7 @@ class UserDetail extends React.Component {
                         <div className="well profile">
                             <div className="col-sm-12">
                                 <div className="col-xs-12 col-sm-8">
-                                    <h1>THIS IS PARAM FROM GRIDCOMPONENT: {this.props.params.id}</h1>
+                                    <h1>{detail.id}</h1>
                                     <h2>{detail.name}</h2>
                                     <p><strong>About: </strong> {detail.about} </p>
                                     <p><strong>Hobbies: </strong> {detail.hobby} </p>

@@ -2,7 +2,7 @@ require("../css/user-details.css");
 import React from 'react';
 import {render} from 'react-dom';
 
-import UserDetail from './user-details'
+import UserDetail from './user-detail'
 
 let detailsRecords = [{
     id:1,
@@ -18,7 +18,7 @@ let detailsRecords = [{
     skills:["Fortran", "Lua", "R#"]
 }];
 
-let UserDetails = class UserDetails extends React.Component {
+class UserDetails extends React.Component {
     constructor(){
         super();
         this.state = {
@@ -26,26 +26,30 @@ let UserDetails = class UserDetails extends React.Component {
         }
     }
     componentDidMount(){
-        let {id} = this.props.params;
-        console.log(id);
-        if(id){
-            this.setState({
-                details:detailsRecords.filter((record)=>{
-                    return record.id != id;
+        const par = this.props.params;
+        if (par) {
+            let {id} = par;
+            console.log("id = " + id);
+            if(id){
+                this.setState({
+                    details:detailsRecords.filter((record)=>{
+                        return record.id != id;
+                    })
                 })
-            })
-        } else {
-            this.setState(
+            } else {
                 this.setState({
                     details:detailsRecords
                 })
-            )
+            }
+        } else {
+            this.setState({
+                details:detailsRecords
+            })
         }
     }
     render(){
         return (
             <div>
-                {this.props.params.id && <h1>THIS IS PARAM FROM GRIDCOMPONENT: {this.props.params.id}</h1>}
                 {this.state.details.map((detail, i)=>{
                     return <UserDetail key={i} detail={detail}/>
                 })}
