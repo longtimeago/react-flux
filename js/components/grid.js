@@ -3,6 +3,7 @@ import React from 'react';
 import {render} from 'react-dom';
 
 import GridRecord from '../components/record';
+import {filterGrid, toggleActive} from '../actions'
 
 class GridComponent extends React.Component {
     constructor(){
@@ -14,19 +15,13 @@ class GridComponent extends React.Component {
 
     toggleActive(index){
         let {dispatch} = this.props;
-        dispatch({
-            type: "TOGGLE_ACTIVE",
-            value: index
-        });
+        dispatch(toggleActive(index));
     }
-
     handleFilterChange(e){
         let {dispatch} = this.props;
-        dispatch({
-            type: "FILTER",
-            value: e.target.value
-        });
+        dispatch(filterGrid(e.target.value));
     }
+
 
     updateLastName(index, newValue){
         let {records} = this.state;
