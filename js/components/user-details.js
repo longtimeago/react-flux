@@ -17,12 +17,10 @@ class UserDetails extends React.Component {
     componentDidUpdate(prevProps){
         let {dispatch} = this.props;
         if(prevProps.params.id!==this.props.params.id){
-            dispatch(
-                dispatch({
-                    type:"FILTER_DETAILS",
-                    value:this.props.params.id
-                })
-            );
+            dispatch({
+                type:"FILTER_DETAILS",
+                value:this.props.params.id
+            });
         }
     }
 
@@ -35,7 +33,7 @@ class UserDetails extends React.Component {
             </div>
         )
     }
-};
+}
 
 UserDetails.propTypes = {
     details: React.PropTypes.array.isRequired
