@@ -1,7 +1,7 @@
 const path = require('path');
 
 const PATHS = {
-    app: "./js/app",
+    app: "./js/containers/app",
     build: path.join(__dirname, 'build')
 };
 

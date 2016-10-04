@@ -1,4 +1,4 @@
-require("../css/user-details.css");
+require("../../css/user-details.css");
 import React from 'react';
 import {render} from 'react-dom';
 

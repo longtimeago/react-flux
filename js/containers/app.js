@@ -1,12 +1,17 @@
 require("bootstrap/dist/css/bootstrap.css");
 import React from 'react';
 import {render} from 'react-dom';
+import { Provider } from 'react-redux';
 
-import GridRecord from './record';
-import SummaryActive from './summary'
-import UserDetails from './user-details'
+import configureStore from '../store/index'
+
+import GridRecord from '../components/record';
+import SummaryActive from '../components/summary'
+import UserDetails from '../components/user-details'
 
 import { Router, Route, Link, hashHistory} from 'react-router'
+
+const store = configureStore();
 
 const dataSource = [
     {firstName: "John", lastName: "Doe", active: false, id: 1},
@@ -56,8 +61,6 @@ class GridComponent extends React.Component {
         })
     }
 
-
-
     render(){
         return (
             <div style={{width:300, height: 300, padding: 20}}>
@@ -105,13 +108,15 @@ class App extends React.Component {
 }
 
 render(
-    <Router history={hashHistory}>
-        <Route path="/" component={App}>
-            <Route path="grid" component={GridComponent}/>
-            <Route path="details" component={UserDetails}>
-                <Route path="/details/:id" component={UserDetails}/>
+    <Provider store={store}>
+        <Router history={hashHistory}>
+            <Route path="/" component={App}>
+                <Route path="grid" component={GridComponent}/>
+                <Route path="details" component={UserDetails}>
+                    <Route path="/details/:id" component={UserDetails}/>
+                </Route>
             </Route>
-        </Route>
-    </Router>,
+        </Router>
+    </Provider>,
     document.getElementById('app')
 );
