@@ -1,51 +1,35 @@
 require("../../css/user-details.css");
 import React from 'react';
 import {render} from 'react-dom';
+import { connect } from 'react-redux'
 
 import UserDetail from './user-detail'
 
-let detailsRecords = [{
-    id:1,
-    name:"John Doe",
-    about:"Nice guy",
-    hobby:"Likes drinking wine",
-    skills:["html", "javascript", "redux"]
-},{
-    id:2,
-    name:"Mary Moe",
-    about:"Cute girl",
-    hobby:"Likes playing xbox whole days long",
-    skills:["Fortran", "Lua", "R#"]
-}];
-
 class UserDetails extends React.Component {
-    constructor(){
-        super();
-        this.state = {
-            details:[]
-        }
-    }
+
     componentDidMount(){
-        let {id} = this.props.params;
-        console.log(id);
-        if(id){
-            this.setState({
-                details:detailsRecords.filter((record)=>{
-                    return record.id == id;
+        let {dispatch} = this.props;
+        dispatch({
+            type:"FILTER_DETAILS",
+            value:this.props.params.id
+        });
+    }
+    componentDidUpdate(prevProps){
+        let {dispatch} = this.props;
+        if(prevProps.params.id!==this.props.params.id){
+            dispatch(
+                dispatch({
+                    type:"FILTER_DETAILS",
+                    value:this.props.params.id
                 })
-            })
-        } else {
-            this.setState(
-                this.setState({
-                    details:detailsRecords
-                })
-            )
+            );
         }
     }
+
     render(){
         return (
             <div>
-                {this.state.details.map((detail, i)=>{
+                {this.props.details.map((detail, i)=>{
                     return <UserDetail key={i} detail={detail}/>
                 })}
             </div>
@@ -53,5 +37,16 @@ class UserDetails extends React.Component {
     }
 };
 
+UserDetails.propTypes = {
+    details: React.PropTypes.array.isRequired
+};
 
-export default UserDetails;
+function mapStateToProps(state) {
+    return {
+        details: state.details
+    }
+}
+
+export default connect(
+    mapStateToProps
+)(UserDetails)
