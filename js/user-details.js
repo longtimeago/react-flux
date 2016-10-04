@@ -31,7 +31,7 @@ class UserDetails extends React.Component {
         if(id){
             this.setState({
                 details:detailsRecords.filter((record)=>{
-                    return record.id != id;
+                    return record.id == id;
                 })
             })
         } else {
