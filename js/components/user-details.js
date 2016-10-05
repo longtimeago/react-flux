@@ -1,12 +1,11 @@
 require("../../css/user-details.css");
 import React from 'react';
 import {render} from 'react-dom';
-import { connect } from 'react-redux'
 
 import UserDetail from './user-detail'
 import {filterDetails, loadDataAndFilterDetails} from '../actions'
 
-class UserDetails extends React.Component {
+export default class UserDetails extends React.Component {
 
     componentDidMount(){
         let {dispatch} = this.props;
@@ -35,12 +34,3 @@ UserDetails.propTypes = {
     details: React.PropTypes.array.isRequired
 };
 
-function mapStateToProps(state) {
-    return {
-        details: state.details
-    }
-}
-
-export default connect(
-    mapStateToProps
-)(UserDetails)

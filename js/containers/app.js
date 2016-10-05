@@ -5,8 +5,8 @@ import { Provider } from 'react-redux';
 
 import configureStore from '../store/index'
 
-import GridComponent from '../components/grid';
-import UserDetails from '../components/user-details'
+import GridContainer from '../containers/gridContainer';
+import UserDetailsContainer from '../containers/userDetailsContainer';
 
 import { Router, Route, Link, hashHistory} from 'react-router'
 
@@ -31,9 +31,9 @@ render(
     <Provider store={store}>
         <Router history={hashHistory}>
             <Route path="/" component={App}>
-                <Route path="grid" component={GridComponent}/>
-                <Route path="details" component={UserDetails}>
-                    <Route path="/details/:id" component={UserDetails}/>
+                <Route path="grid" component={GridContainer}/>
+                <Route path="details" component={UserDetailsContainer}>
+                    <Route path="/details/:id" component={UserDetailsContainer}/>
                 </Route>
             </Route>
         </Router>

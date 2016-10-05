@@ -1,11 +1,10 @@
-import { connect } from 'react-redux'
 import React from 'react';
 import {render} from 'react-dom';
 
 import GridRecord from '../components/record';
 import {filterGrid, toggleActive, loadDataInGrid} from '../actions'
 
-class GridComponent extends React.Component {
+export default class GridComponent extends React.Component {
     componentDidMount(){
         this.refs.filterInput && this.refs.filterInput.focus();
         this.loadData();
@@ -80,15 +79,3 @@ GridComponent.propTypes = {
     filtered: React.PropTypes.array.isRequired,
     loading: React.PropTypes.bool.isRequired
 };
-
-function mapStateToProps(state) {
-    return {
-        records: state.grid.records,
-        filtered: state.grid.filtered,
-        loading: state.grid.loading
-    }
-}
-
-export default connect(
-    mapStateToProps
-)(GridComponent)
