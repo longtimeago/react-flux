@@ -3,14 +3,17 @@ import React from 'react';
 import {render} from 'react-dom';
 
 import GridRecord from '../components/record';
-import {filterGrid, toggleActive} from '../actions'
+import {filterGrid, toggleActive, loadDataInGrid} from '../actions'
 
 class GridComponent extends React.Component {
-    constructor(){
-        super();
-    }
     componentDidMount(){
         this.refs.filterInput && this.refs.filterInput.focus();
+        this.loadData();
+    }
+
+    loadData(){
+        let {dispatch} = this.props;
+        dispatch(loadDataInGrid());
     }
 
     toggleActive(index){
@@ -32,6 +35,10 @@ class GridComponent extends React.Component {
     }
 
     render(){
+        let recordsToShow = this.props.records.filter((record)=>{
+            return this.props.filtered.indexOf(record.id)==-1;
+        });
+
         return (
             <div style={{width:300, height: 300, padding: 20}}>
                 <p>
@@ -47,7 +54,7 @@ class GridComponent extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.props.records.map((record, index)=> {
+                    {recordsToShow.map((record, index)=> {
                             return <GridRecord record={record} key={index}
                                                toggleActive={this.toggleActive.bind(this, index)}
                                                updateLastName={this.updateLastName.bind(this, index)}/>
@@ -63,12 +70,16 @@ class GridComponent extends React.Component {
 }
 
 GridComponent.propTypes = {
-    records: React.PropTypes.array.isRequired
+    records: React.PropTypes.array.isRequired,
+    filtered: React.PropTypes.array.isRequired,
+    loading: React.PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state) {
     return {
-        records: state.grid
+        records: state.grid.records,
+        filtered: state.grid.filtered,
+        loading: state.grid.loading
     }
 }
 

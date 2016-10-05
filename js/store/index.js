@@ -1,13 +1,15 @@
 import { createStore,applyMiddleware } from 'redux'
+import thunk from 'redux-thunk';
+
 import { combineReducers } from 'redux'
 
-import {TOGGLE_ACTIVE, FILTER, FILTER_DETAILS} from '../constants'
+import {TOGGLE_ACTIVE, FILTER, FILTER_DETAILS, START_LOADING, STOP_LOADING, ADD_DATA} from '../constants'
 
-let gridRecords = [
-        {firstName: "John", lastName: "Doe", active: false, id: 1},
-        {firstName: "Mary", lastName: "Moe", active: false, id: 2},
-        {firstName: "Peter", lastName: "Noname", active: true, id: 3}
-    ],
+let gridState = {
+    records:[],
+    filtered: [],
+    loading:false
+    },
     detailsRecords = [{
         id:1,
         name:"John Doe",
@@ -22,15 +24,28 @@ let gridRecords = [
         skills:["Fortran", "Lua", "R#"]
     }];
 
-export function grid(state = gridRecords, action){
+export function grid(state = gridState, action){
     switch (action.type) {
         case TOGGLE_ACTIVE:
-            let newState = [...state];
-            newState[action.value].active = !newState[action.value].active;
-            return newState;
+            let newRecords = [...state.records];
+            newRecords[action.value].active = !newRecords[action.value].active;
+            return Object.assign({}, state, {
+                records: newRecords
+            });
         case FILTER:
-            return gridRecords.filter((record)=>{
-                return record.firstName.toUpperCase().includes(action.value.toUpperCase());
+            let filteredRecordsInd = state.records
+                .filter(r => !r.firstName.toUpperCase().includes(action.value.toUpperCase()))
+                .map(r => r.id);
+            return Object.assign({}, state, {
+                filtered: filteredRecordsInd
+            });
+        case START_LOADING:
+            return Object.assign({}, state, {loading: true});
+        case STOP_LOADING:
+            return Object.assign({}, state, {loading: false});
+        case ADD_DATA:
+            return Object.assign({}, state, {
+                records:[...action.value]
             });
         default:
             return state
@@ -54,6 +69,8 @@ export const rootReducer = combineReducers({
 });
 
 export default function configureStore(initialState) {
-    return createStore(rootReducer);
+    const createStoreWithMiddleware = applyMiddleware(
+        thunk
+    )(createStore);
+    return createStoreWithMiddleware(rootReducer);
 }
-
