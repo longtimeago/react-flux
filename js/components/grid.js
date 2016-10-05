@@ -39,6 +39,12 @@ class GridComponent extends React.Component {
             return this.props.filtered.indexOf(record.id)==-1;
         });
 
+        if(this.props.loading){
+            return (
+                <div style={{width:300, height: 300, padding: 20}}>Loading...</div>
+            )
+        }
+
         return (
             <div style={{width:300, height: 300, padding: 20}}>
                 <p>
