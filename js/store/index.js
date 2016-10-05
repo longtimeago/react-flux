@@ -3,26 +3,14 @@ import thunk from 'redux-thunk';
 
 import { combineReducers } from 'redux'
 
-import {TOGGLE_ACTIVE, FILTER, FILTER_DETAILS, START_LOADING, STOP_LOADING, ADD_DATA} from '../constants'
+import {TOGGLE_ACTIVE, FILTER, FILTER_DETAILS, START_LOADING, STOP_LOADING, ADD_DATA, ADD_DATA_IN_DETAILS} from '../constants'
 
 let gridState = {
-    records:[],
-    filtered: [],
-    loading:false
+        records:[],
+        filtered: [],
+        loading:false
     },
-    detailsRecords = [{
-        id:1,
-        name:"John Doe",
-        about:"Nice guy",
-        hobby:"Likes drinking wine",
-        skills:["html", "javascript", "redux"]
-    },{
-        id:2,
-        name:"Mary Moe",
-        about:"Cute girl",
-        hobby:"Likes playing xbox whole days long",
-        skills:["Fortran", "Lua", "R#"]
-    }];
+    detailsRecords = [];
 
 export function grid(state = gridState, action){
     switch (action.type) {
@@ -54,10 +42,12 @@ export function grid(state = gridState, action){
 
 export function details(state = detailsRecords, action){
     switch (action.type) {
+        case ADD_DATA_IN_DETAILS:
+            return action.value;
         case FILTER_DETAILS:
-            return action.value ? detailsRecords.filter((record)=>{
+            return action.value ? state.filter((record)=>{
                 return record.id == action.value;
-            }) : detailsRecords;
+            }) : state;
         default:
             return state
     }

@@ -40,6 +40,13 @@ export function addData(value) {
     }
 }
 
+export function addDataInDetails(detailsRecords) {
+    return {
+        type: types.ADD_DATA_IN_DETAILS,
+        value: detailsRecords
+    }
+}
+
 export function loadDataInGrid(){
     return (dispatch)=>{
         dispatch(startLoading());
@@ -53,3 +60,17 @@ export function loadDataInGrid(){
         })
     }
 }
+
+export function loadDataAndFilterDetails(id){
+    return (dispatch)=>{
+        fetch('http://localhost:4730')
+            .then(function(response) {
+                return response.json();
+            }).then(function(json) {
+            dispatch(addDataInDetails(json.detailsRecords))
+        }).then(function(){
+            dispatch(filterDetails(id));
+        })
+    }
+}
+
